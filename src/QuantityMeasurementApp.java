@@ -1,14 +1,63 @@
 public class QuantityMeasurementApp {
 
+    public static void demonstrateLengthConversion(
+            double value,
+            LengthUnit from,
+            LengthUnit to) {
+
+        double result =
+                QuantityLength.convert(value, from, to);
+
+        System.out.println(
+                "convert("
+                        + value + ", "
+                        + from + ", "
+                        + to + ") = "
+                        + result
+        );
+    }
+
+    public static void demonstrateLengthConversion(
+            QuantityLength length,
+            LengthUnit target) {
+
+        QuantityLength converted =
+                length.convertTo(target);
+
+        System.out.println(
+                length + " = " + converted
+        );
+    }
+
+    public static void demonstrateLengthEquality(
+            QuantityLength l1,
+            QuantityLength l2) {
+
+        System.out.println(
+                l1.equals(l2)
+        );
+    }
+
     public static void main(String[] args) {
 
-        QuantityLength q1 =
-                new QuantityLength(1.0, LengthUnit.YARDS);
+        demonstrateLengthConversion(
+                1.0,
+                LengthUnit.FEET,
+                LengthUnit.INCHES);
 
-        QuantityLength q2 =
-                new QuantityLength(3.0, LengthUnit.FEET);
+        demonstrateLengthConversion(
+                3.0,
+                LengthUnit.YARDS,
+                LengthUnit.FEET);
 
-        System.out.println("Equal (" +
-                q1.equals(q2) + ")");
+        demonstrateLengthConversion(
+                36.0,
+                LengthUnit.INCHES,
+                LengthUnit.YARDS);
+
+        demonstrateLengthConversion(
+                1.0,
+                LengthUnit.CENTIMETERS,
+                LengthUnit.INCHES);
     }
 }
