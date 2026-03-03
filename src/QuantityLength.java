@@ -86,4 +86,52 @@ public class QuantityLength {
     public String toString() {
         return value + " " + unit;
     }
+
+    public QuantityLength add(QuantityLength other) {
+
+        if (other == null) {
+            throw new IllegalArgumentException("Second operand cannot be null");
+        }
+
+        if (!Double.isFinite(this.value) ||
+                !Double.isFinite(other.value)) {
+            throw new IllegalArgumentException("Invalid numeric value");
+        }
+
+        double thisFeet = this.toFeet();
+        double otherFeet = other.toFeet();
+
+        double sumFeet = thisFeet + otherFeet;
+
+        double resultValue =
+                sumFeet / this.unit.getConversionFactor();
+
+        return new QuantityLength(resultValue, this.unit);
+    }
+
+    public static QuantityLength add(
+            double v1,
+            LengthUnit u1,
+            double v2,
+            LengthUnit u2) {
+
+        QuantityLength l1 =
+                new QuantityLength(v1, u1);
+
+        QuantityLength l2 =
+                new QuantityLength(v2, u2);
+
+        return l1.add(l2);
+    }
+
+    public static QuantityLength add(
+            QuantityLength l1,
+            QuantityLength l2) {
+
+        if (l1 == null || l2 == null) {
+            throw new IllegalArgumentException("Operands cannot be null");
+        }
+
+        return l1.add(l2);
+    }
 }

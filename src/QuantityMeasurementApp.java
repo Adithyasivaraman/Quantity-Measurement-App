@@ -1,63 +1,62 @@
 public class QuantityMeasurementApp {
 
-    public static void demonstrateLengthConversion(
-            double value,
-            LengthUnit from,
-            LengthUnit to) {
-
-        double result =
-                QuantityLength.convert(value, from, to);
-
-        System.out.println(
-                "convert("
-                        + value + ", "
-                        + from + ", "
-                        + to + ") = "
-                        + result
-        );
-    }
-
-    public static void demonstrateLengthConversion(
-            QuantityLength length,
-            LengthUnit target) {
-
-        QuantityLength converted =
-                length.convertTo(target);
-
-        System.out.println(
-                length + " = " + converted
-        );
-    }
-
-    public static void demonstrateLengthEquality(
+    public static void demonstrateAddition(
             QuantityLength l1,
             QuantityLength l2) {
 
+        QuantityLength result = l1.add(l2);
+
         System.out.println(
-                l1.equals(l2)
-        );
+                "add(" + l1 + ", "
+                        + l2 + ") = "
+                        + result);
     }
 
     public static void main(String[] args) {
 
-        demonstrateLengthConversion(
-                1.0,
-                LengthUnit.FEET,
-                LengthUnit.INCHES);
+        demonstrateAddition(
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET),
 
-        demonstrateLengthConversion(
-                3.0,
-                LengthUnit.YARDS,
-                LengthUnit.FEET);
+                new QuantityLength(
+                        2.0,
+                        LengthUnit.FEET));
 
-        demonstrateLengthConversion(
-                36.0,
-                LengthUnit.INCHES,
-                LengthUnit.YARDS);
+        demonstrateAddition(
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET),
 
-        demonstrateLengthConversion(
-                1.0,
-                LengthUnit.CENTIMETERS,
-                LengthUnit.INCHES);
+                new QuantityLength(
+                        12.0,
+                        LengthUnit.INCHES));
+
+        demonstrateAddition(
+                new QuantityLength(
+                        12.0,
+                        LengthUnit.INCHES),
+
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.FEET));
+
+        demonstrateAddition(
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.YARDS),
+
+                new QuantityLength(
+                        3.0,
+                        LengthUnit.FEET));
+
+        demonstrateAddition(
+                new QuantityLength(
+                        2.54,
+                        LengthUnit.CENTIMETERS),
+
+                new QuantityLength(
+                        1.0,
+                        LengthUnit.INCHES));
     }
 }
