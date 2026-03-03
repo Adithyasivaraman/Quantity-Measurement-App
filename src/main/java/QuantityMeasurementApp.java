@@ -1,33 +1,23 @@
 public class QuantityMeasurementApp {
 
-    public static Length demonstrateLengthAddition(
-            Length length1,
-            Length length2,
-            LengthUnit targetUnit) {
-
-        return length1.add(length2, targetUnit);
-    }
-
     public static void main(String[] args) {
 
-        Quantity<VolumeUnit> v1 =
-                new Quantity<>(1.0, VolumeUnit.LITRE);
+        Quantity<LengthUnit> length1 = new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> length2 = new Quantity<>(6.0, LengthUnit.INCHES);
 
-        Quantity<VolumeUnit> v2 =
-                new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+        System.out.println("Subtract: " + length1.subtract(length2));
+        System.out.println("Divide: " + length1.divide(new Quantity<>(2.0, LengthUnit.FEET)));
 
-        Quantity<VolumeUnit> v3 =
-                new Quantity<>(1.0, VolumeUnit.GALLON);
+        Quantity<WeightUnit> weight1 = new Quantity<>(10.0, WeightUnit.KILOGRAM);
+        Quantity<WeightUnit> weight2 = new Quantity<>(5000.0, WeightUnit.GRAM);
 
-        System.out.println("Equality:");
-        System.out.println(v1.equals(v2));  // true
+        System.out.println("Subtract Weight: " + weight1.subtract(weight2));
+        System.out.println("Divide Weight: " + weight1.divide(new Quantity<>(5.0, WeightUnit.KILOGRAM)));
 
-        System.out.println("\nConversion:");
-        System.out.println(v1.convertTo(VolumeUnit.MILLILITRE));
-        System.out.println(v3.convertTo(VolumeUnit.LITRE));
+        Quantity<VolumeUnit> volume1 = new Quantity<>(5.0, VolumeUnit.LITRE);
+        Quantity<VolumeUnit> volume2 = new Quantity<>(500.0, VolumeUnit.MILLILITRE);
 
-        System.out.println("\nAddition:");
-        System.out.println(v1.add(v2));
-        System.out.println(v1.add(v3, VolumeUnit.GALLON));
+        System.out.println("Subtract Volume: " + volume1.subtract(volume2));
+        System.out.println("Divide Volume: " + volume1.divide(new Quantity<>(10.0, VolumeUnit.LITRE)));
     }
 }
