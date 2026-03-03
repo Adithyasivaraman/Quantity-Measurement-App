@@ -1,26 +1,32 @@
-public enum WeightUnit {
+public enum WeightUnit implements IMeasurable {
 
     KILOGRAM(1.0),
     GRAM(0.001),
     POUND(0.453592);
 
-    private final double conversionFactorToKilogram;
+    private final double conversionFactor;
 
-    WeightUnit(double conversionFactorToKilogram) {
-        this.conversionFactorToKilogram = conversionFactorToKilogram;
+    WeightUnit(double conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
+    @Override
     public double getConversionFactor() {
-        return conversionFactorToKilogram;
+        return conversionFactor;
     }
 
-    // Convert this unit TO base (kg)
+    @Override
     public double convertToBaseUnit(double value) {
-        return value * conversionFactorToKilogram;
+        return value * conversionFactor;
     }
 
-    // Convert base (kg) TO this unit
+    @Override
     public double convertFromBaseUnit(double baseValue) {
-        return baseValue / conversionFactorToKilogram;
+        return baseValue / conversionFactor;
+    }
+
+    @Override
+    public String getUnitName() {
+        return name();
     }
 }
