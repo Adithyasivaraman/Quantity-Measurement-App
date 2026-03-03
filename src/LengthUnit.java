@@ -3,15 +3,15 @@ public enum LengthUnit {
     FEET(1.0),
     INCHES(1.0 / 12.0),
     YARDS(3.0),
-    CENTIMETERS(0.0328084);
+    CENTIMETERS(0.0328084); // 1 cm = 0.0328084 feet
 
-    private final double conversionFactorToFeet;
+    private final double conversionFactor;
 
-    LengthUnit(double factor) {
-        this.conversionFactorToFeet = factor;
+    LengthUnit(double conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
     public double getConversionFactor() {
-        return conversionFactorToFeet;
+        return conversionFactor;
     }
 }

@@ -1,62 +1,28 @@
 public class QuantityMeasurementApp {
 
-    public static void demonstrateAddition(
-            QuantityLength l1,
-            QuantityLength l2) {
+    public static Length demonstrateLengthAddition(
+            Length length1,
+            Length length2,
+            LengthUnit targetUnit) {
 
-        QuantityLength result = l1.add(l2);
-
-        System.out.println(
-                "add(" + l1 + ", "
-                        + l2 + ") = "
-                        + result);
+        return length1.add(length2, targetUnit);
     }
 
     public static void main(String[] args) {
 
-        demonstrateAddition(
-                new QuantityLength(
-                        1.0,
-                        LengthUnit.FEET),
+        Length l1 = new Length(1.0, LengthUnit.FEET);
+        Length l2 = new Length(12.0, LengthUnit.INCHES);
 
-                new QuantityLength(
-                        2.0,
-                        LengthUnit.FEET));
+        System.out.println(
+                demonstrateLengthAddition(l1, l2, LengthUnit.FEET)
+        );
 
-        demonstrateAddition(
-                new QuantityLength(
-                        1.0,
-                        LengthUnit.FEET),
+        System.out.println(
+                demonstrateLengthAddition(l1, l2, LengthUnit.INCHES)
+        );
 
-                new QuantityLength(
-                        12.0,
-                        LengthUnit.INCHES));
-
-        demonstrateAddition(
-                new QuantityLength(
-                        12.0,
-                        LengthUnit.INCHES),
-
-                new QuantityLength(
-                        1.0,
-                        LengthUnit.FEET));
-
-        demonstrateAddition(
-                new QuantityLength(
-                        1.0,
-                        LengthUnit.YARDS),
-
-                new QuantityLength(
-                        3.0,
-                        LengthUnit.FEET));
-
-        demonstrateAddition(
-                new QuantityLength(
-                        2.54,
-                        LengthUnit.CENTIMETERS),
-
-                new QuantityLength(
-                        1.0,
-                        LengthUnit.INCHES));
+        System.out.println(
+                demonstrateLengthAddition(l1, l2, LengthUnit.YARDS)
+        );
     }
 }
