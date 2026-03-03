@@ -1,4 +1,6 @@
-public class QuantityLength {
+import java.util.Objects;
+
+public final class QuantityLength {
 
     private final double value;
     private final LengthUnit unit;
@@ -8,11 +10,11 @@ public class QuantityLength {
     public QuantityLength(double value, LengthUnit unit) {
 
         if (!Double.isFinite(value)) {
-            throw new IllegalArgumentException("Invalid numeric value");
+            throw new IllegalArgumentException("Value must be finite.");
         }
 
         if (unit == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
+            throw new IllegalArgumentException("Unit cannot be null.");
         }
 
         this.value = value;
@@ -27,111 +29,70 @@ public class QuantityLength {
         return unit;
     }
 
-    private double toFeet() {
-        return value * unit.getConversionFactor();
-    }
+    // ---------- Conversion ----------
 
     public QuantityLength convertTo(LengthUnit targetUnit) {
 
         if (targetUnit == null) {
-            throw new IllegalArgumentException("Target unit cannot be null");
+            throw new IllegalArgumentException("Target unit cannot be null.");
         }
 
-        double baseFeet = toFeet();
+        double baseValue = unit.convertToBaseUnit(value);
+        double converted = targetUnit.convertFromBaseUnit(baseValue);
 
-        double convertedValue =
-                baseFeet / targetUnit.getConversionFactor();
-
-        return new QuantityLength(convertedValue, targetUnit);
+        return new QuantityLength(converted, targetUnit);
     }
 
-    public static double convert(
-            double value,
-            LengthUnit source,
-            LengthUnit target) {
+    // ---------- Addition (Implicit Target = First Operand) ----------
 
-        if (!Double.isFinite(value)) {
-            throw new IllegalArgumentException("Invalid value");
-        }
-
-        if (source == null || target == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
-
-        double baseFeet =
-                value * source.getConversionFactor();
-
-        return baseFeet / target.getConversionFactor();
+    public QuantityLength add(QuantityLength other) {
+        return add(other, this.unit);
     }
+
+    // ---------- Addition (Explicit Target Unit – UC7 Compatible) ----------
+
+    public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
+
+        if (other == null) {
+            throw new IllegalArgumentException("Second operand cannot be null.");
+        }
+
+        if (targetUnit == null) {
+            throw new IllegalArgumentException("Target unit cannot be null.");
+        }
+
+        double baseSum =
+                this.unit.convertToBaseUnit(this.value)
+                        + other.unit.convertToBaseUnit(other.value);
+
+        double result = targetUnit.convertFromBaseUnit(baseSum);
+
+        return new QuantityLength(result, targetUnit);
+    }
+
+    // ---------- Equality ----------
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj)
-            return true;
+        if (this == obj) return true;
+        if (!(obj instanceof QuantityLength)) return false;
 
-        if (obj == null || getClass() != obj.getClass())
-            return false;
+        QuantityLength other = (QuantityLength) obj;
 
-        QuantityLength other =
-                (QuantityLength) obj;
+        double thisBase = unit.convertToBaseUnit(value);
+        double otherBase = other.unit.convertToBaseUnit(other.value);
 
-        return Math.abs(
-                this.toFeet()
-                        - other.toFeet())
-                < EPSILON;
+        return Math.abs(thisBase - otherBase) < EPSILON;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(unit.convertToBaseUnit(value));
     }
 
     @Override
     public String toString() {
-        return value + " " + unit;
-    }
-
-    public QuantityLength add(QuantityLength other) {
-
-        if (other == null) {
-            throw new IllegalArgumentException("Second operand cannot be null");
-        }
-
-        if (!Double.isFinite(this.value) ||
-                !Double.isFinite(other.value)) {
-            throw new IllegalArgumentException("Invalid numeric value");
-        }
-
-        double thisFeet = this.toFeet();
-        double otherFeet = other.toFeet();
-
-        double sumFeet = thisFeet + otherFeet;
-
-        double resultValue =
-                sumFeet / this.unit.getConversionFactor();
-
-        return new QuantityLength(resultValue, this.unit);
-    }
-
-    public static QuantityLength add(
-            double v1,
-            LengthUnit u1,
-            double v2,
-            LengthUnit u2) {
-
-        QuantityLength l1 =
-                new QuantityLength(v1, u1);
-
-        QuantityLength l2 =
-                new QuantityLength(v2, u2);
-
-        return l1.add(l2);
-    }
-
-    public static QuantityLength add(
-            QuantityLength l1,
-            QuantityLength l2) {
-
-        if (l1 == null || l2 == null) {
-            throw new IllegalArgumentException("Operands cannot be null");
-        }
-
-        return l1.add(l2);
+        return "Quantity(" + value + ", " + unit + ")";
     }
 }
